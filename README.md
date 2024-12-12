@@ -9,13 +9,13 @@ OSCP Like
 	### Pwn 2024-12-11 
 	### SSRF: 
      test GET attacker listening nc
-     find local open port and api (brup or self python scanner)
-     leak pass from the api request (one user without sudo)
+     find local open port and api (by brup or self python scanner)
+     leak pass from the api request -> one user without sudo
 	### GIT: 
-     history, credential leak (another user with sudo: python3 {a .py with git-python vuln} {param})
-	### Git-python: 
+     history, credential leak -> another user with sudo: python3 {a .py with git-python vuln} {param}
+	### Git-python vuln: 
      https://security.snyk.io/vuln/SNYK-PYTHON-GITPYTHON-3113858
-
+     exploit -> root
 
 ## HTB: BoardLight 28 Sep 2024
 
