@@ -8,7 +8,7 @@ OSCP Like
 ## HTB: Editorial 19 Oct 2024
 	1. Pwn 2024-12-11 
 	2. SSRF: 
-     Set /etc/hosts to the domain to visit the site
+     Set /etc/hosts of the domain to visit the site
      test GET attacker listening nc
      find local open port and api (by brup or self python scanner)
      leak pass from the api request -> one user without sudo
