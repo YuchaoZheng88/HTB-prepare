@@ -10,9 +10,9 @@ OSCP Like
 	### SSRF: 
      test GET attacker listening nc
      find local open port and api (brup or self python scanner)
-     leak pass from the api request
+     leak pass from the api request (one user without sudo)
 	### GIT: 
-     history, credential leak
+     history, credential leak (another user with sudo: python3 {a .py with git-python vuln} {param})
 	### Git-python: 
      https://security.snyk.io/vuln/SNYK-PYTHON-GITPYTHON-3113858
 
