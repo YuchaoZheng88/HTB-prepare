@@ -6,19 +6,26 @@ OSCP Like
 
 
 ## HTB: Editorial 19 Oct 2024
-	1. Pwn 2024-12-11 
-	2. SSRF: 
-     Set /etc/hosts of the domain to visit the site
-     test GET attacker listening nc
-     find local open port and api (by brup or self python scanner)
-     leak pass from the api request -> one user without sudo
-	3. GIT: 
-     history, credential leak -> another user with sudo: python3 {a .py with git-python vuln} {param}
-	4. Git-python vuln: 
-     https://security.snyk.io/vuln/SNYK-PYTHON-GITPYTHON-3113858
-     exploit -> root
+```
+1. Pwn 2024-12-11 
+2. SSRF:
+	Set /etc/hosts of the domain to visit the site
+	test GET attacker listening nc
+	find local open port and api (by brup or self python scanner)
+	leak pass from the api request -> one user without sudo
+3. GIT: 
+	history, credential leak -> another user with sudo: python3 {a .py with git-python vuln} {param}
+4. Git-python vuln:
+	https://security.snyk.io/vuln/SNYK-PYTHON-GITPYTHON-3113858
+	exploit -> root
+```
 
 ## HTB: BoardLight 28 Sep 2024
+```
+1. fuzz host
+	ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt:FUZZ -u http://board.htb/ -H 'Host: FUZZ.board.htb' -fs 15949
+
+```
 
 ## HTB: Mailing 07 Sep 2024
 
