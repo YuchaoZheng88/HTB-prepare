@@ -6,14 +6,14 @@ OSCP Like
 
 
 ## HTB: Editorial 19 Oct 2024
-	### Pwn 2024-12-11 
-	### SSRF: 
+	1. Pwn 2024-12-11 
+	2. SSRF: 
      test GET attacker listening nc
      find local open port and api (by brup or self python scanner)
      leak pass from the api request -> one user without sudo
-	### GIT: 
+	3. GIT: 
      history, credential leak -> another user with sudo: python3 {a .py with git-python vuln} {param}
-	### Git-python vuln: 
+	4. Git-python vuln: 
      https://security.snyk.io/vuln/SNYK-PYTHON-GITPYTHON-3113858
      exploit -> root
 
