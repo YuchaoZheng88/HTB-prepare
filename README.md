@@ -21,9 +21,17 @@ OSCP Like
 ```
 
 ## HTB: BoardLight 28 Sep 2024
-```
+```serverfun2$2023!!
 1. fuzz host
-	ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt:FUZZ -u http://board.htb/ -H 'Host: FUZZ.board.htb' -fs 15949
+  Fuzz header Host, and filter out response length 15949.
+  cmd: ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt:FUZZ -u http://board.htb/ -H 'Host: FUZZ.board.htb' -fs 15949
+2. default password login
+3. exploit https://nvd.nist.gov/vuln/detail/CVE-2023-30253 manually, create PHP reverse shell.
+4. goto website conf file: htdocs/conf/conf.php
+5. find the user in /etc/passwd who has bash, then login by pass found in conf.php
+6. Run LinPEAS.sh found suid enlightenment
+7. find its version by cmd: enlightenment --version, which vuln to CVE-2022-37706
+8. use exploit at: https://raw.githubusercontent.com/MaherAzzouzi/CVE-2022-37706-LPE-exploit/main/exploit.sh and get root.
 
 ```
 
