@@ -104,6 +104,7 @@ inner network email phishing
 
 
 ## HTB: Monitored 11 May 2024
+Mostly https://www.exploit-db.com/exploits/44969
 ```
 1. nmap found tcp 22,80,389,443,5667. udp: 123 ntp, 161 snmp.
 2. snmp enumeration: snmpwalk -v 2c -c public nagios.monitored.htb
