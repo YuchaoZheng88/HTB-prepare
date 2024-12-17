@@ -35,9 +35,10 @@ OSCP Like
 
 ```
 
-## HTB: Mailing 07 Sep 2024 (a buggy box)
-```
+## HTB: Mailing 07 Sep 2024 
+a buggy box
 inner network email phishing
+```
 1. Windows relative path traverse: "..\..\Windows\System32\drivers\etc\hosts" (not like linux: ../../etc/hosts)
 2. google service config path: ..\..\..\Program+Files+(x86)\hMailServer\Bin\hMailServer.ini. download it
 3. cmd: hashcat -m 0 ./md5-hash.txt /usr/share/wordlists/rockyou.txt (md5-hash.txt contains one line of the hashed pass found in .ini file)
