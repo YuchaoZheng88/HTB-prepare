@@ -151,6 +151,7 @@ Mostly https://www.exploit-db.com/exploits/44969
 ```
 
 ## HTB: Manager 16 Mar 2024
+https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-certificates/domain-escalation#vulnerable-certificate-authority-access-control-esc7
 ```
 1. smb enumerate: $ smbclient -L \\\\10.129.136.168\\ -N 
 2. perform RID cycling: impacket-lookupsid anonymous@manager.htb -no-pass
