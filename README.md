@@ -246,6 +246,17 @@ https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-ce
 
 
 ## HTB: CozyHosting 02 Mar 2024
+```
+1. ports=$(nmap -p- --min-rate=1000 -T4 10.10.11.230 | grep '^[0-9]' | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
+   nmap -p$ports -sV 10.10.11.230
+2. ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/directory-list-2.3-medium.txt:FFUZ -u http://cozyhosting.htb/FFUZ -ic -t 100
+   	-w Wordlist file path
+	-u Target URL
+	-ic Ignore wordlist comments
+	-t Number of concurrent threads
+3. 
+```
+
 
 ## HTB: Builder 12 Feb 2024
 
