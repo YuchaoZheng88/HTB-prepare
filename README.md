@@ -246,7 +246,7 @@ https://book.hacktricks.xyz/windows-hardening/active-directory-methodology/ad-ce
 
 
 ## HTB: CozyHosting 02 Mar 2024
-
+use ${IFS} to escape space
 ```
 1. ports=$(nmap -p- --min-rate=1000 -T4 10.10.11.230 | grep '^[0-9]' | cut -d '/' -f 1 | tr '\n' ',' | sed s/,$//)
    nmap -p$ports -sV 10.10.11.230
