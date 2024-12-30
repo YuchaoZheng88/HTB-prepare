@@ -306,6 +306,7 @@ use ${IFS} to escape space
 ```
 
 ---
+# GDB
 
 ## HTB: Drive (gdb related)
 
@@ -319,6 +320,11 @@ use ${IFS} to escape space
 
 ## HTB: Developer (gdb related)
 
+## HTB: Rope (gdb related)
+
+## HTB: Patents (gdb related)
+
+## HTB: Smasher2 (gdb related)
 ---
 
 ## HTB: Builder 12 Feb 2024
