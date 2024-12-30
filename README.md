@@ -1,9 +1,30 @@
-https://0xdf.gitlab.io/cheatsheets/offsec
+---
+# GDB
 
+## HTB: Drive (gdb related)
+
+## HTB: Gofer (gdb related)
+
+## HTB: Investigation (gdb related)
+
+## HTB: Retired (gdb related)
+
+## HTB: Overflow (gdb related)
+
+## HTB: Developer (gdb related)
+
+## HTB: Rope (gdb related)
+
+## HTB: Patents (gdb related)
+
+## HTB: Smasher2 (gdb related)
+---
+
+# Offsec
+https://0xdf.gitlab.io/cheatsheets/offsec
 
 OSCPv3 (PEN-200 2023-2024; includes OSCP+)
 OSCP Like
-
 
 ## HTB: Editorial 19 Oct 2024
 ```
@@ -305,27 +326,7 @@ use ${IFS} to escape space
 27. exploit: sudo ssh -o ProxyCommand=';sh 0<&2 1>&2' x
 ```
 
----
-# GDB
 
-## HTB: Drive (gdb related)
-
-## HTB: Gofer (gdb related)
-
-## HTB: Investigation (gdb related)
-
-## HTB: Retired (gdb related)
-
-## HTB: Overflow (gdb related)
-
-## HTB: Developer (gdb related)
-
-## HTB: Rope (gdb related)
-
-## HTB: Patents (gdb related)
-
-## HTB: Smasher2 (gdb related)
----
 
 ## HTB: Builder 12 Feb 2024
 
