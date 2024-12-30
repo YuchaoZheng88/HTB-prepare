@@ -305,6 +305,21 @@ use ${IFS} to escape space
 27. exploit: sudo ssh -o ProxyCommand=';sh 0<&2 1>&2' x
 ```
 
+---
+
+## HTB: Drive (gdb related)
+
+## HTB: Gofer (gdb related)
+
+## HTB: Investigation (gdb related)
+
+## HTB: Retired (gdb related)
+
+## HTB: Overflow (gdb related)
+
+## HTB: Developer (gdb related)
+
+---
 
 ## HTB: Builder 12 Feb 2024
 
