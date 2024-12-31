@@ -1,5 +1,3 @@
----
-
 # GDB
 
 ## HTB: Drive (gdb related)
@@ -29,7 +27,8 @@
 ## HTB: Patents (gdb related)
 
 ## HTB: Smasher2 (gdb related)
----
+
+
 
 # Offsec
 https://0xdf.gitlab.io/cheatsheets/offsec
