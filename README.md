@@ -10,8 +10,6 @@
 5. cannot find anything here, try to port forward 3000 to attacker`s machine which has browser.
 6. cmd: ssh -L 8080:127.0.0.1:3000 martin@drive.htb
 7. visit: localhost:8080
-
-
 ```
 
 ## HTB: Gofer (gdb related)
