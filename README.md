@@ -2,6 +2,17 @@
 # GDB
 
 ## HTB: Drive (gdb related)
+```
+1. find ports 22,80,3000 open; add /etc/hosts
+2. Upload random file, and click "Reserve" this file. URL will be "http://drive.htb/{fileID}/block/"
+3. The URL is vulnerable to IDOR; use Burp Intruder find the ID with file associated.
+4. Get user/pass: martin/"Xk4@KjyrYv8t194L!" on ID 79.
+5. cannot find anything here, try to port forward 3000 to attacker`s machine which has browser.
+6. cmd: ssh -L 8080:127.0.0.1:3000 martin@drive.htb
+7. visit: localhost:8080
+
+
+```
 
 ## HTB: Gofer (gdb related)
 
