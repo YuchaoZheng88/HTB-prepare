@@ -9,7 +9,7 @@
 4. Get user/pass: martin/"Xk4@KjyrYv8t194L!" on ID 79.
 5. cannot find anything here, try to port forward 3000 to attacker`s machine which has browser.
 6. cmd: ssh -L 8080:127.0.0.1:3000 martin@drive.htb
-7. visit: localhost:8080
+7. attacker browser visit: localhost:8080 (find Gitea website)
 ```
 
 ## HTB: Gofer (gdb related)
