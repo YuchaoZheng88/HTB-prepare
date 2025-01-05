@@ -7,9 +7,22 @@
 2. Upload random file, and click "Reserve" this file. URL will be "http://drive.htb/{fileID}/block/"
 3. The URL is vulnerable to IDOR; use Burp Intruder find the ID with file associated.
 4. Get user/pass: martin/"Xk4@KjyrYv8t194L!" on ID 79.
-5. cannot find anything here, try to port forward 3000 to attacker`s machine which has browser.
-6. cmd: ssh -L 8080:127.0.0.1:3000 martin@drive.htb
-7. attacker browser visit: localhost:8080 (find Gitea website)
+5. use cmd "ss -tlpn", find out the device listening TCP ports: 33060, 3306, 80, 53, 22, 80, 3000.
+6. cannot find anything here, try to port forward 3000 to attacker`s machine which has browser.
+	a. martin@drive:/var/www/backups$ ls
+ 	  1_Dec_db_backup.sqlite3.7z  1_Oct_db_backup.sqlite3.7z  db.sqlite3
+	  1_Nov_db_backup.sqlite3.7z  1_Sep_db_backup.sqlite3.7z
+	  (cannot use martin`s password to unzip the 7z files.)
+	b. Cannot use martin`s password or root with no pass to visit local mysql server(3306)
+7. cmd: ssh -L 8080:127.0.0.1:3000 martin@drive.htb
+8. attacker browser visit: localhost:8080 (find Gitea website)
+9. Gitea->Explore page->Users-> find user "martinCruz". login by password of martin.
+10. in commit history find "7z a -p'H@ckThisP@ssW0rDIfY0uC@n:)' /var/www/backups/${date_str}_db_backup.sqlite3.7z db.sqlite3"
+11. martin@drive:~$ 7z e -p'H@ckThisP@ssW0rDIfY0uC@n:)' ./1_Sep_db_backup.sqlite3.7z -so > /home/martin/Sep.sqlite3
+12. martin@drive:~$ sqlite3 Dec.sqlite3
+	.tables
+	
+13. 
 ```
 
 ## HTB: Gofer (gdb related)
