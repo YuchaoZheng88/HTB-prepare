@@ -52,7 +52,8 @@ sha1$jzpj8fqBgy66yby2vX5XPa$52f17d6118fce501e3b60de360d4c311337836a3
 	(Enter password for 
 	moriarty
 	findMeIfY0uC@nMr.Holmz!)
-19. 
+19. $ scp tom@drive.htb:/home/tom/doodleGrive-cli ./
+20. 
 ```
 
 ## HTB: Gofer (gdb related)
