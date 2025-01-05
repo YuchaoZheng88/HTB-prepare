@@ -47,7 +47,12 @@ sha1$jzpj8fqBgy66yby2vX5XPa$52f17d6118fce501e3b60de360d4c311337836a3
   sha1$Ri2bP6RVoZD5XYGzeYWr7c$4053cb928103b6a9798b2521c4100db88969525a:johnmayer7 (belongs to tom@drive.htb)
 16. login tom@drive.htb with pass "johnmayer7", get flag: 1d68e33fa8953b2aec2458e6366da9cb
 
-17.
+17.cat README.txt, file doodleGrive-cli
+18. tom@drive:~$ strings doodleGrive-cli | grep -A5 -B5 pass
+	(Enter password for 
+	moriarty
+	findMeIfY0uC@nMr.Holmz!)
+19. 
 ```
 
 ## HTB: Gofer (gdb related)
