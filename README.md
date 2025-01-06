@@ -1,5 +1,6 @@
 # GDB
-
+ref:
+  https://exploit.education/
 ## HTB: Drive (gdb related)
 
 ```
