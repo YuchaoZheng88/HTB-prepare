@@ -1,6 +1,13 @@
-# GDB
-ref:
+# exploit education
   https://exploit.education/
+  ```
+  gcc -fno-stack-protector -z execstack -g challenge.c -o s0
+  
+  ```
+  
+# GDB
+
+  
 ## HTB: Drive (gdb related)
 
 ```
