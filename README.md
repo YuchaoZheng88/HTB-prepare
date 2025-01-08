@@ -10,7 +10,10 @@
 
   python -c "print('A'*68)" | ./stack0
 
-  mv ../payload $PWD  
+  echo $PWD
+  mv ../payload $PWD
+  export ExploitEnv=$(cat payload_file)
+  
 
   ```
   
