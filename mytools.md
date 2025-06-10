@@ -1,4 +1,5 @@
 # Find pop pop retn
+Find pop pop return in IDA python
 ```python
 print("\n\n")
 
@@ -10,7 +11,8 @@ addr = get_segm_by_sel(selector_by_name(".text"))
 def disp(a,b,c,d):
 	mneml = print_operand(a,0)
 	mnem2 = print_operand(next_head(a),0)
-	print("0x%08x:" % a,b,mneml,"|",c,mnem2,"|",d)
+	mnem3 = print_operand(next_head(next_head(a)),0)
+	print("0x%08x:" % a,b,mneml,"|",c,mnem2,"|",d,mnem3)
 
 #while addr < end and addr != BADADDR:
 while addr != BADADDR:
