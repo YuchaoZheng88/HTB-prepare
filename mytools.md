@@ -1,5 +1,5 @@
-###########################################################################
-##### Find pop pop retn
+# Find pop pop retn
+```python
 print("\n\n")
 
 print("Running POP/POP/RETN Script\n")
@@ -30,5 +30,4 @@ while addr != BADADDR:
 
 
 print("\nScript Finished!\n\n")
-
-###########################################################################
+```
