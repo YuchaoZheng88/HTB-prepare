@@ -75,6 +75,9 @@ m-6 (Savant):
 	(all jmp 0x17 from beginning address of current assembly)
 	5.  rather than terminating the HTTP request, we could add an additional buffer after the first carriage return (\r) and new-line (\n) 
 	6. Keystone Engine to find additional buffer on heap.
-	7. egg hunt .....
+	7. egg hunt 
+		Keystone Engine: embed assembly code in python poc, not using hex code directly.
+		from keystone import *
+	
 
 ---------------------------------------
