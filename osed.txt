@@ -119,10 +119,17 @@ m-7 Custom Shellcode (t !!)
 
 	7. write shell code of step 6 by keystone, check dll name length.  "kernel32.dll" string is 12 bytes UNICODE 
 		check the 25th byte is NULL. If the comparison fails, take a conditional jump to next_module and check.
-	
 
+	Found base addr of kernel32.dll; next goal: dynamically resolving TerminateProcess using Export Directory Table
 
-
+	8. find the DataDirectory, which holds information about the Export Directory Table
+		dt ntdll!_IMAGE_DOS_HEADER 0x76e40000  (pe header shows at 0x3c, with value 0xf8)
+		dt ntdll!_IMAGE_NT_HEADERS 0x76e40000 + 0xf8 (OptionalHeader shows at 0x18)
+		dt ntdll!_IMAGE_OPTIONAL_HEADER 0x76e40000 + 0xf8 + 0x18 (DataDirectory shows at 0x60)
+	9. verify it:
+		a. dt ntdll!_IMAGE_DATA_DIRECTORY 0x76e40000 + 0xf8 + 0x18 + 0x60
+		b. !dh -f kernel32
+	10. build reverse shell using ws2_32.dll: WSAStartup, WSASocket, WSAConnect, CreateProcessA.
 
 
 ---------------------------------------
