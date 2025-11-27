@@ -73,11 +73,14 @@ m-6 (Savant):
 		which is short jmp next 0x17 bytes. (not work)
 	4. another way: httpMethod = b"\x31\xC9\x85\xC9\x0F\x84\x11" + b" /"  # xor ecx, ecx; test ecx, ecx; je 0x17
 	(all jmp 0x17 from beginning address of current assembly)
-	5.  rather than terminating the HTTP request, we could add an additional buffer after the first carriage return (\r) and new-line (\n) 
+	5.  rather than terminating the HTTP request, we could add an additional buffer after the first carriage return (\r) and new-line (\n), search its magic bytes "w00tw00t" in memory, found it is on heap.
 	6. Keystone Engine to find additional buffer on heap.
-	7. egg hunt 
+	7. egg hunt (crawls through the entire memory space for magic bytes)
 		Keystone Engine: embed assembly code in python poc, not using hex code directly.
-		from keystone import *
-	
+		python: from keystone import *
+		issue to combat: no way of telling beforehand if a memory page is mapped
+			use NtAccessCheckAndAuditAlarm: https://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FSecurity%2FNtAccessCheckAndAuditAlarm.html
+
+		
 
 ---------------------------------------
