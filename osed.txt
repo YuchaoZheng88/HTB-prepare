@@ -8,6 +8,10 @@ Windbg views:
 Windbg cmds:
 
 1.	g
+	p = Step Over
+	t = Step into
+	pt = Step over until return
+	pc = Step out
 
 2. dds @esp L5
 
@@ -52,6 +56,9 @@ Windbg cmds:
 14. !address 01365a5e (information about certain address)
 
 15. lm m ntdll
+
+16. !vprot eip
+
 ---------------------------------------
 Linux cmds:
 
@@ -133,3 +140,26 @@ m-7 Custom Shellcode (t !!)
 
 
 ---------------------------------------
+
+m-10 Stack Overflows and DEP Bypass
+
+	1. a. can be configed in:  boot.ini (Windows XP) or bcdedit.exe
+		b. 4 modes: OptIn, OptOut, AlwaysOn, AlwaysOff.
+		c. ntdll.dll -> LdrpCheckNXCompatibility
+	2. !vprot eip (display the memory protections of eip, another eg. !vprot esp)
+	3. .load narly
+		!nmod
+	4. test:
+		a. ed esp 90909090 (change assembly esp points to to nop)
+		b. r eip = esp
+		c. p (Access violation - code c0000005)
+	5. In 2009, Microsoft released the Enhanced Mitigation Experience Toolkit (EMET)
+		From Windows 10 and forward, EMET embedded in the os and renamed to Windows Defender Exploit Guard (WDEG)
+		Enable DEP of target exe in Windows Defender Security Center (use WDEG)
+	6. ROP method 1: use NtSetInformationProcess api to disable DEP, then jump to shellcode again.
+			windows mitigation: Permanent DEP. (executable linked with the _/NXCOMPAT__ flag during compilation)
+		ROP method 2: uses the WinExec function to execute commands
+			(not as effective as having arbitrary shellcode execution)
+	7. return to any instruction sequence in the executable memory pages that ends with a return.
+		
+
