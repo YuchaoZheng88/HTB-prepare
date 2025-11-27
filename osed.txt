@@ -9,7 +9,7 @@ Windbg cmds:
 
 1.	g
 
-2. 	dds @esp L5
+2. dds @esp L5
 
 3.	.load narly
 	!nmod
@@ -51,7 +51,7 @@ Windbg cmds:
 
 14. !address 01365a5e (information about certain address)
 
-15. 
+15. lm m ntdll
 ---------------------------------------
 Linux cmds:
 
@@ -105,7 +105,7 @@ m-7 Custom Shellcode (t !!)
 		dt nt!_TEB @$teb 
 			(view teb)
 		dt nt!_PEB 0x7f60b000 
-			(view PEB address read from teb)
+			(view PEB address read from teb, PEB addr at offset 0x30 of the TEB)
 		dt _PEB_LDR_DATA 0x776c9aa0 
 			(view _PEB_LDR_DATA from nt!_PEB)
 			found: InLoadOrderModuleList, InMemoryOrderModuleList, InInitializationOrderModuleList
@@ -117,7 +117,10 @@ m-7 Custom Shellcode (t !!)
 				1. +0x018 DllBase          : 0x775c0000 Void
 				2. +0x02c BaseDllName      : _UNICODE_STRING "ntdll.dll"
 
-	7. 
+	7. write shell code of step 6 by keystone, check dll name length.  "kernel32.dll" string is 12 bytes UNICODE 
+		check the 25th byte is NULL. If the comparison fails, take a conditional jump to next_module and check.
+	
+
 
 
 
