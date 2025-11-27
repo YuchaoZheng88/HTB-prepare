@@ -80,7 +80,9 @@ m-6 (Savant):
 		python: from keystone import *
 		issue to combat: no way of telling beforehand if a memory page is mapped
 			use NtAccessCheckAndAuditAlarm: https://undocumented.ntinternals.net/index.html?page=UserMode%2FUndocumented%20Functions%2FSecurity%2FNtAccessCheckAndAuditAlarm.html
-
+			if has access: return STATUS_NO_IMPERSONATION_TOKEN
+			if not: STATUS_ACCESS_VIOLATION 
+	
 		
 
 ---------------------------------------
