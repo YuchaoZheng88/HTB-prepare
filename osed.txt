@@ -50,6 +50,8 @@ Windbg cmds:
 13. !teb
 
 14. !address 01365a5e (information about certain address)
+
+15. 
 ---------------------------------------
 Linux cmds:
 
@@ -92,7 +94,32 @@ m-6 (Savant):
 
 m-7 Custom Shellcode (t !!)
 	1. ctype & keystone, make windows api calls
-	2.  LoadLibraryA
+	2. LoadLibraryA, GetModuleHandleA, GetProcAddress
+	3. problem: need to know addresses of step 2.
+	4. Understanding Windows Shellcode: 
+		https://www.hick.org/code/skape/papers/win32-shellcode.pdf
+	Win32 Assembly Components:
+		https://www.offsec.com/awe/AWEPAPERS/winasm-1.0.1.pdf
+	5. 3 methods: PEB, SEH, "Top Stack", only talks PEB.
+	6. PEB method, test on windbg:
+		dt nt!_TEB @$teb 
+			(view teb)
+		dt nt!_PEB 0x7f60b000 
+			(view PEB address read from teb)
+		dt _PEB_LDR_DATA 0x776c9aa0 
+			(view _PEB_LDR_DATA from nt!_PEB)
+			found: InLoadOrderModuleList, InMemoryOrderModuleList, InInitializationOrderModuleList
+		dt _LIST_ENTRY (0x776c9aa0 + 0x1c) 
+			(view InInitializationOrderModuleList)
+		dt _LDR_DATA_TABLE_ENTRY (0x04011658 - 0x10) 
+			(subtract 0x10 from _LIST_ENTRY to reach _LDR_DATA_TABLE_ENTRY_ structure)
+			it contains: 
+				1. +0x018 DllBase          : 0x775c0000 Void
+				2. +0x02c BaseDllName      : _UNICODE_STRING "ntdll.dll"
+
+	7. 
+
+
 
 
 ---------------------------------------
