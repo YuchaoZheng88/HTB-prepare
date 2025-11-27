@@ -91,8 +91,8 @@ m-6 (Savant):
 ---------------------------------------
 
 m-7 Custom Shellcode (t !!)
-	ctype & keystone, make windows api calls
-	
+	1. ctype & keystone, make windows api calls
+	2.  LoadLibraryA
 
 
 ---------------------------------------
